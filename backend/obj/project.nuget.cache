@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "2xNxFiQKRFE=",
+  "success": true,
+  "projectFilePath": "C:\\repo\\Fullstack\\flightBookingApp\\backend\\backend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wadam\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.10\\microsoft.aspnetcore.openapi.9.0.10.nupkg.sha512",
+    "C:\\Users\\wadam\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
