@@ -1,0 +1,31 @@
+@model IEnumerable<backend.Model.Flight>
+
+@{
+    ViewData["Title"] = "Flights";
+}
+
+<h1>Flights</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Airline</th>
+            <th>Route</th>
+            <th>Departure</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var f in Model)
+    {
+        <tr>
+            <td>@f.Airline</td>
+            <td>@f.Origin - @f.Destination</td>
+            <td>@f.DepartureTime.ToString("g")</td>
+            <td>@f.Price.ToString("C")</td>
+            <td><a class="btn btn-sm btn-primary" href="/Flights/Details/@f.FlightId">Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

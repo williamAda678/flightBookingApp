@@ -1,0 +1,26 @@
+@model backend.Model.Flight
+
+@{
+    ViewData["Title"] = "Flight Details";
+}
+
+<h1>Flight Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">Airline</dt>
+    <dd class="col-sm-10">@Model.Airline</dd>
+
+    <dt class="col-sm-2">Route</dt>
+    <dd class="col-sm-10">@Model.Origin - @Model.Destination</dd>
+
+    <dt class="col-sm-2">Departure</dt>
+    <dd class="col-sm-10">@Model.DepartureTime.ToString("f")</dd>
+
+    <dt class="col-sm-2">Arrival</dt>
+    <dd class="col-sm-10">@Model.ArrivalTime.ToString("f")</dd>
+
+    <dt class="col-sm-2">Price</dt>
+    <dd class="col-sm-10">@Model.Price.ToString("C")</dd>
+</dl>
+
+<a class="btn btn-secondary" href="/Flights">Back to list</a>
