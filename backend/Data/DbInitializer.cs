@@ -41,5 +41,87 @@ namespace FlightBookingApp.Data
             context.Flights.AddRange(flights);
             context.SaveChanges();
         }
+
+        //seed users
+        public static void SeedUsers(AppDbContext context)
+        {
+            if (context.Users.Any()) return;
+
+            var users = new List<User>
+            {
+                new User { FirstName = "Alice", LastName = "Johnson", Email = "alice@example.com", PasswordHash = "HASHED_pw1", CreatedAt = DateTime.UtcNow.AddMonths(-3) },
+                new User { FirstName = "Bob", LastName = "Smith", Email = "bob@example.com", PasswordHash = "HASHED_pw2", CreatedAt = DateTime.UtcNow.AddMonths(-2) },
+                new User { FirstName = "Carol", LastName = "Ng", Email = "carol@example.com", PasswordHash = "HASHED_pw3", CreatedAt = DateTime.UtcNow.AddMonths(-1) },
+                new User { FirstName = "David", LastName = "Lee", Email = "david@example.com", PasswordHash = "HASHED_pw4", CreatedAt = DateTime.UtcNow.AddDays(-10) },
+                new User { FirstName = "Eve", LastName = "Martinez", Email = "eve@example.com", PasswordHash = "HASHED_pw5", CreatedAt = DateTime.UtcNow.AddDays(-5) }
+            };
+
+            context.Users.AddRange(users);
+            context.SaveChanges();
+        }
+
+        //seed bookings (depends on users + flights)
+        public static void SeedBookings(AppDbContext context)
+        {
+            if (context.Bookings.Any()) return;
+
+            // Ensure there are users and flights
+            if (!context.Users.Any()) SeedUsers(context);
+            if (!context.Flights.Any()) SeedFlights(context);
+
+            var users = context.Users.OrderBy(u => u.UserId).Take(5).ToList();
+            var flights = context.Flights.OrderBy(f => f.FlightId).Take(10).ToList();
+
+            if (!users.Any() || !flights.Any()) return;
+
+            var bookings = new List<Booking>
+            {
+                new Booking { UserId = users[0].UserId, FlightId = flights[0].FlightId, BookingDate = DateTime.UtcNow.AddDays(-15), Status = "Confirmed", PassengerName = $"{users[0].FirstName} {users[0].LastName}" },
+                new Booking { UserId = users[1].UserId, FlightId = flights[2].FlightId, BookingDate = DateTime.UtcNow.AddDays(-10), Status = "Confirmed", PassengerName = $"{users[1].FirstName} {users[1].LastName}" },
+                new Booking { UserId = users[2].UserId, FlightId = flights[3].FlightId, BookingDate = DateTime.UtcNow.AddDays(-7), Status = "Cancelled", PassengerName = $"{users[2].FirstName} {users[2].LastName}" },
+                new Booking { UserId = users[3].UserId, FlightId = flights[4].FlightId, BookingDate = DateTime.UtcNow.AddDays(-3), Status = "Pending", PassengerName = $"{users[3].FirstName} {users[3].LastName}" },
+                new Booking { UserId = users[4].UserId, FlightId = flights[1].FlightId, BookingDate = DateTime.UtcNow.AddDays(-1), Status = "Confirmed", PassengerName = $"{users[4].FirstName} {users[4].LastName}" }
+            };
+
+            context.Bookings.AddRange(bookings);
+            context.SaveChanges();
+        }
+
+        //seed payments (depends on bookings)
+        public static void SeedPayments(AppDbContext context)
+        {
+            if (context.Payments.Any()) return;
+
+            if (!context.Bookings.Any()) SeedBookings(context);
+
+            var bookings = context.Bookings.OrderBy(b => b.BookingId).Take(5).ToList();
+            if (!bookings.Any()) return;
+
+            var payments = new List<Payment>();
+            foreach (var b in bookings)
+            {
+                var flight = context.Flights.Find(b.FlightId);
+                var amount = flight?.Price ?? 100.00m;
+                payments.Add(new Payment
+                {
+                    BookingId = b.BookingId,
+                    Amount = amount,
+                    PaymentDate = b.BookingDate.AddDays(1),
+                    Status = b.Status == "Cancelled" ? "Refunded" : "Completed"
+                });
+            }
+
+            context.Payments.AddRange(payments);
+            context.SaveChanges();
+        }
+
+        // seed everything in correct order
+        public static void SeedAll(AppDbContext context)
+        {
+            SeedUsers(context);
+            SeedFlights(context);
+            SeedBookings(context);
+            SeedPayments(context);
+        }
     }
 }
