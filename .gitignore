@@ -40,12 +40,12 @@ Release/
 *.mdf
 *.ldf
 *.ndf
-*.log
-*.tlog
 TestResults/
 publish/
 *.vsix
 *.nuget
+*.Designer.cs
+*.resx
 
 # ======================
 # Node / React
@@ -86,7 +86,15 @@ coverage/
 *.log
 
 # ======================
-# Other
+# Local database files
+# ======================
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# ======================
+# Other archives
 # ======================
 *.zip
 *.tar.gz
