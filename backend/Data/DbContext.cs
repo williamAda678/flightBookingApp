@@ -3,13 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingApp.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        // This constructor is required for dependency injection
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-        }
 
         // DbSets for your models
         public DbSet<User> Users { get; set; }

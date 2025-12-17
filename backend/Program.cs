@@ -1,7 +1,13 @@
 using FlightBookingApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Models;
+using backend.Interface;
+using backend.Service;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Get the connection string from configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -13,18 +19,35 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add MVC (controllers with views)
 builder.Services.AddControllersWithViews();
 
+// Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Register application services
+
+
+
+
+builder.Services.AddScoped<IFlightService, FlightService>();
+
 // Allow CORS from frontend dev server (Vite default: http://localhost:5173)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LocalDevPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flight API V1"));
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
@@ -45,9 +68,12 @@ using (var scope = app.Services.CreateScope())
     SeedData.SeedFlights(dbContext);
 }
 
+// Map attribute-routed controllers and add a conventional default route for MVC views
+app.MapControllers();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 
