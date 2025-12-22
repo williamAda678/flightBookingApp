@@ -55,5 +55,16 @@ namespace backend.Controllers.Api
             if (!beenDeleted) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> GetFlightSearch([FromQuery] SearchFlightDto searchflight)
+        {
+            if (searchflight == null) return BadRequest("Missing search parameters.");
+
+            var flights = await _flightService.SearchFlightAsync(searchflight);
+            if (flights == null || !flights.Any()) return NotFound("No flights found.");
+            return Ok(flights);
+        }
+
     }
 }

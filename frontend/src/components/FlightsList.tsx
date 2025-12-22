@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Flight } from "../types";
+import { Flight } from "../types/types";
+import { fetchFlights } from "../services/api";
 
 export default function FlightsList() {
   const [flights, setFlights] = useState<Flight[]>([]);
@@ -7,15 +8,22 @@ export default function FlightsList() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Backend API endpoint returns JSON
-    fetch("http://localhost:5001/api/flights")
-      .then(async (res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        setFlights(json);
-      })
-      .catch((err) => setError(String(err)))
-      .finally(() => setLoading(false));
+ 
+    let mounted = true;
+    console.log("12");
+    (async () => {
+      try {
+        const data = await fetchFlights();
+        if (mounted) setFlights(data);
+      } catch (err) {
+        if (mounted) setError(String(err));
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   if (loading) return <p>Loading flights...</p>;
