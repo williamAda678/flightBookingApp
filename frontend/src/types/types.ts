@@ -8,3 +8,10 @@ export type Flight = {
   price: number;
   cabinClass?: string;
 };
+
+export type SearchFlight = {
+  origin: string;
+  destination: string;
+  departureDate: string;
+  cabinClass: string;
+};
