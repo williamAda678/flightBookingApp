@@ -8,7 +8,6 @@ async function fetchApi(path: string, init?: RequestInit) {
   console.log(BaseApi, path);
   const res = await fetch(`${BaseApi}${path}`, init);
   const text = await res.text();
-  console.log("test");
   let data: any = null;
   if (text) {
     try {
@@ -33,7 +32,7 @@ export async function fetchFlights(): Promise<Flight[]> {
   return fetchApi("/flights");
 }
 
-export async function fetchFlightById(id: string): Promise<Flight> {
+export async function fetchFlightById(id: number): Promise<Flight> {
   return fetchApi(`/flights/${encodeURIComponent(id)}`);
 }
 
@@ -47,6 +46,5 @@ export async function fetchSerachFlight(
   if (params.departureDate) query.append("departureDate", params.departureDate);
   if (params.cabinClass) query.append("cabinClass", params.cabinClass);
 
-  console.log(query.toString());
   return fetchApi(`/flights/search?${query.toString()}`);
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import FlightsList from "./components/FlightsList";
 import SearchBar from "./components/SearchBar";
+import { Container } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 export default function App() {
   return (
@@ -8,9 +9,9 @@ export default function App() {
       <header>
         <h1>Flight Booking App</h1>
       </header>
-      <main>
-        <SearchBar />
-      </main>
+      <Container maxWidth="xl" sx={{ mt: 8 }}>
+        <Outlet />
+      </Container>
     </div>
   );
 }

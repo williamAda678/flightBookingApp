@@ -1,11 +1,12 @@
-import { Box, TextField } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
-import { fetchSerachFlight } from "../services/api";
-import { Flight, SearchFlight } from "../types/types";
+// FlightsList.tsx
+import { useState } from "react";
+import { SearchFlight } from "../types/types";
 import { useFlightSearch } from "../services/useFlightSearch";
+import { FlightsList } from "../pages/flightsPage/FlightsList";
 
-export default function FlightsList() {
+export default function SearchBar() {
   const { flights, loading, error, search } = useFlightSearch();
+
   const [formData, setFormData] = useState<SearchFlight>({
     origin: "",
     destination: "",
@@ -31,14 +32,14 @@ export default function FlightsList() {
         <input
           type="text"
           name="origin"
-          placeholder="from"
+          placeholder="From"
           value={formData.origin}
           onChange={handleChange}
         />
         <input
           type="text"
           name="destination"
-          placeholder="from"
+          placeholder="To"
           value={formData.destination}
           onChange={handleChange}
         />
@@ -60,34 +61,6 @@ export default function FlightsList() {
         </select>
         <button type="submit">Search</button>
       </form>
-
-      {loading && <p>Searching...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {flights.length > 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Airline</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Departure</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {flights.map((f) => (
-              <tr key={f.flightId}>
-                <td>{f.airline}</td>
-                <td>{f.origin}</td>
-                <td>{f.destination}</td>
-                <td>{new Date(f.departureTime).toLocaleString()}</td>
-                <td>${f.price.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
     </>
   );
 }
