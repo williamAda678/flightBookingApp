@@ -1,17 +1,17 @@
 import { useCallback, useState } from "react";
 import { Flight, SearchFlight } from "../types/types";
-import { fetchSerachFlight } from "./api";
+import { fetchFlights, fetchSerachFlight } from "./api";
 
-export function useFlightSearch() {
+export async function useGetFlight() {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const search = useCallback((params: SearchFlight) => {
+  const flightList = useCallback(() => {
     let mounted = true;
     (async () => {
       try {
-        const data = await fetchSerachFlight(params);
+        const data = await fetchFlights();
         if (mounted) setFlights(data);
       } catch (err) {
         if (mounted) setError(String(err));
@@ -23,6 +23,5 @@ export function useFlightSearch() {
       mounted = false;
     };
   }, []);
-
-  return { flights, loading, error, search };
+  return { flights, loading, error, flightList };
 }

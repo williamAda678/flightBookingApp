@@ -85,5 +85,14 @@ public class FlightService(AppDbContext db) : IFlightService
         return true;
     }
 
+    public async Task<IEnumerable<AirportDto>> GetAllAirportsAsync()
+    {
+        var flights = await _db.Flights.ToListAsync();
+
+        var airports = flights.Select(x => x.Origin).Distinct().ToList();
+
+        return ToDTOs.ToAirportDto(airports);
+    }
+
 
 }

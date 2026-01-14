@@ -1,11 +1,17 @@
 // FlightsList.tsx
-import { useState } from "react";
-import { SearchFlight } from "../types/types";
+import { useEffect, useState } from "react";
+import { Airport, Flight, SearchFlight } from "../types/types";
 import { useFlightSearch } from "../services/useFlightSearch";
 import { FlightsList } from "../pages/flightsPage/FlightsList";
+import Box from "@mui/material/Box";
+import { Autocomplete, Button, MenuItem, TextField } from "@mui/material";
+import React from "react";
+import { fetchAirports, fetchFlights } from "../services/api";
 
 export default function SearchBar() {
-  const { flights, loading, error, search } = useFlightSearch();
+  const [airports, setAirports] = useState<Airport[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<SearchFlight>({
     origin: "",
@@ -23,26 +29,54 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    search(formData);
+    //search(formData);
   };
+
+  useEffect(() => {
+    async function loadFlight() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await fetchAirports();
+
+        setAirports(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadFlight();
+  }, []);
+  if (loading) return <p>Loading flight...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (!airports) return <p>airports not found</p>;
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="origin"
-          placeholder="From"
-          value={formData.origin}
-          onChange={handleChange}
+      <Box
+        component="form"
+        sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
+        noValidate
+        autoComplete="on"
+      >
+        <Autocomplete
+          id="Search-origin"
+          disableClearable
+          options={airports?.map((airports) => airports.airport)}
+          renderInput={(params) => <TextField {...params} label="origin" />}
         />
-        <input
-          type="text"
-          name="destination"
-          placeholder="To"
-          value={formData.destination}
-          onChange={handleChange}
+        <Autocomplete
+          id="Search-destination"
+          disableClearable
+          options={airports.map((airports) => airports.airport)}
+          renderInput={(params) => (
+            <TextField {...params} label="destination" />
+          )}
         />
+
         <input
           type="date"
           name="departureDate"
@@ -59,8 +93,8 @@ export default function SearchBar() {
           <option value="business">Business</option>
           <option value="first">First</option>
         </select>
-        <button type="submit">Search</button>
-      </form>
+        <Button variant="contained">Search</Button>
+      </Box>
     </>
   );
 }

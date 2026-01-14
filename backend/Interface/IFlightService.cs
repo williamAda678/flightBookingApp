@@ -13,5 +13,6 @@ public interface IFlightService
     Task<bool> UpdateFlightAsync(int id, UpdateFlightDto flight);
     Task<bool> DeleteFlightAsync(int id);
     Task<List<Flight?>> SearchFlightAsync(SearchFlightDto searchflight);
+    Task<IEnumerable<AirportDto>> GetAllAirportsAsync();
 
 }

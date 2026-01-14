@@ -24,6 +24,8 @@ namespace backend.Controllers.Api
             return Ok(flights);
         }
 
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -65,6 +67,15 @@ namespace backend.Controllers.Api
             if (flights == null || !flights.Any()) return NotFound("No flights found.");
             return Ok(flights);
         }
+
+        [HttpGet("airports")]
+        public async Task<IActionResult> GetAllAirports()
+        {
+            var airports = await _flightService.GetAllAirportsAsync();
+            if (airports == null) return NotFound("unable to find airports");
+            return Ok(airports);
+        }
+
 
     }
 }

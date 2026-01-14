@@ -1,6 +1,7 @@
 using System;
 using backend.DTOs;
 using backend.Model;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace backend.Extensions;
 
@@ -44,6 +45,17 @@ public class ToDTOs
         flight.Airline = updateFlight.Airline;
         flight.Price = updateFlight.Price;
         flight.CabinClass = updateFlight.CabinClass;
+
+    }
+
+
+
+    public static IEnumerable<AirportDto> ToAirportDto(List<string> airports)
+    {
+        return [.. airports.Select(x => new AirportDto
+        {
+            Airport = x,
+        })];
 
     }
 }

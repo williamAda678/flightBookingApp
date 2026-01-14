@@ -15,3 +15,7 @@ export type SearchFlight = {
   departureDate: string;
   cabinClass: string;
 };
+
+export type Airport = {
+  airport: string;
+};

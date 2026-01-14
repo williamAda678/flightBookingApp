@@ -22,7 +22,7 @@ export default function FlightDetails() {
         console.log(id);
         if (isNaN(id)) throw new Error("Invalid flight ID");
 
-        const data = await fetchFlightById(id); // Replace with your API
+        const data = await fetchFlightById(id); 
      
         
         setFlight(data);

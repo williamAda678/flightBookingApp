@@ -1,6 +1,6 @@
 import { json } from "node:stream/consumers";
 import { API_BASE } from "../constants/config";
-import { Flight, SearchFlight } from "../types/types";
+import { Airport, Flight, SearchFlight } from "../types/types";
 
 const BaseApi = API_BASE;
 
@@ -28,7 +28,6 @@ async function fetchApi(path: string, init?: RequestInit) {
 }
 
 export async function fetchFlights(): Promise<Flight[]> {
-  console.log("5545");
   return fetchApi("/flights");
 }
 
@@ -47,4 +46,8 @@ export async function fetchSerachFlight(
   if (params.cabinClass) query.append("cabinClass", params.cabinClass);
 
   return fetchApi(`/flights/search?${query.toString()}`);
+}
+
+export async function fetchAirports(): Promise<Airport[]> {
+  return fetchApi("/flights/airports");
 }

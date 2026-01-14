@@ -45,3 +45,11 @@ public class SearchFlightDto
     public DateTime? DepartureDate { get; set; }
     public string? CabinClass { get; set; }
 }
+
+
+public class AirportDto
+{
+    public string? Airport { get; set; }
+
+
+}

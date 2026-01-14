@@ -15,3 +15,8 @@ public class Flight
 
     public ICollection<Booking> Bookings { get; set; }
 }
+
+public class Airport
+{
+    public string airport { get; set; }
+}
