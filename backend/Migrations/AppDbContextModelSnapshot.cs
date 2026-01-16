@@ -17,36 +17,80 @@ namespace backend.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("backend.Model.Booking", b =>
+            modelBuilder.Entity("backend.Model.Aircraft", b =>
                 {
-                    b.Property<int>("BookingId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("FlightId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PassengerName")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Status")
+                    b.Property<int>("CruiseSpeedKmh")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IataCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IcaoCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("RangeKm")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("BookingId");
+                    b.Property<int?>("TypicalSeats")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("FlightId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.ToTable("Aircraft");
+                });
 
-                    b.ToTable("Bookings");
+            modelBuilder.Entity("backend.Model.Airport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IataCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IcaoCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Airport");
                 });
 
             modelBuilder.Entity("backend.Model.Flight", b =>
@@ -83,102 +127,6 @@ namespace backend.Migrations
                     b.HasKey("FlightId");
 
                     b.ToTable("Flights");
-                });
-
-            modelBuilder.Entity("backend.Model.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("BookingId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("backend.Model.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("backend.Model.Booking", b =>
-                {
-                    b.HasOne("backend.Model.Flight", "Flight")
-                        .WithMany("Bookings")
-                        .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Model.User", "User")
-                        .WithMany("Bookings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flight");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Model.Payment", b =>
-                {
-                    b.HasOne("backend.Model.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-                });
-
-            modelBuilder.Entity("backend.Model.Flight", b =>
-                {
-                    b.Navigation("Bookings");
-                });
-
-            modelBuilder.Entity("backend.Model.User", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

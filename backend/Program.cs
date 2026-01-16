@@ -28,7 +28,9 @@ builder.Services.AddSwaggerGen();
 
 
 
-builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IFlightServices, FlightServices>();
+builder.Services.AddScoped<IAircraftServices, AircraftServices>();
+builder.Services.AddScoped<IAirportServices, AirportServices>();
 
 // Allow CORS from frontend dev server (Vite default: http://localhost:5173)
 builder.Services.AddCors(options =>
@@ -66,6 +68,8 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     SeedData.SeedFlights(dbContext);
+    SeedData.SeedAircraft(dbContext);
+    SeedData.SeedAirpots(dbContext);
 }
 
 // Map attribute-routed controllers and add a conventional default route for MVC views

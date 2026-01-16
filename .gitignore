@@ -100,3 +100,9 @@ coverage/
 *.tar.gz
 *.rar
 *.7z
+backend/Migrations/20260116053111_AddAircraft.cs
+backend/Migrations/20260116055709_AddAirports.cs
+backend/Migrations/AppDbContextModelSnapshot.cs
+backend/flight.db-wal
+backend/flight.db-shm
+backend/flight.db-wal

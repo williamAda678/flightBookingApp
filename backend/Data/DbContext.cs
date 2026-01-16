@@ -7,10 +7,10 @@ namespace FlightBookingApp.Data
     {
 
         // DbSets for your models
-        public DbSet<User> Users { get; set; }
         public DbSet<Flight> Flights { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Aircraft> Aircraft { get; set; }
+        public DbSet<Airport> Airport { get; set; }
+
 
         // Optional: override OnModelCreating if needed
         protected override void OnModelCreating(ModelBuilder modelBuilder)
