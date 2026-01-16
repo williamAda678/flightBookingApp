@@ -11,8 +11,8 @@ namespace backend.Controllers.Api
     [Route("api/[controller]")]
     public class FlightsController : ControllerBase
     {
-        private readonly IFlightService _flightService;
-        public FlightsController(IFlightService flightService)
+        private readonly IFlightServices _flightService;
+        public FlightsController(IFlightServices flightService)
         {
             _flightService = flightService;
         }

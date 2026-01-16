@@ -4,7 +4,7 @@ using backend.Model;
 
 namespace backend.Interface;
 
-public interface IFlightService
+public interface IFlightServices
 {
 
     Task<IEnumerable<Flight>> GetAllFlightAsync();

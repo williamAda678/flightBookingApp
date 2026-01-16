@@ -10,7 +10,7 @@ using backend.DTOs;
 
 namespace backend.Service;
 
-public class FlightService(AppDbContext db) : IFlightService
+public class FlightServices(AppDbContext db) : IFlightServices
 {
 
     private readonly AppDbContext _db = db;

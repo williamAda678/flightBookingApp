@@ -13,10 +13,6 @@ public class Flight
     public decimal Price { get; set; }
     public string CabinClass { get; set; }
 
-    public ICollection<Booking> Bookings { get; set; }
 }
 
-public class Airport
-{
-    public string airport { get; set; }
-}
+
