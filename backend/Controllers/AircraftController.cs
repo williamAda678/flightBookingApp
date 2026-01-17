@@ -31,5 +31,12 @@ namespace backend.Controllers
 
             return Ok(aircraft);
         }
+
+        [HttpGet("seat")]
+        public async Task<IActionResult> GetwithSeatsConfig()
+        {
+            var aircrafts = _aircraftServices.GetAircraftWithSeatsConfigAsync();
+            return Ok(aircrafts);
+        }
     }
 }

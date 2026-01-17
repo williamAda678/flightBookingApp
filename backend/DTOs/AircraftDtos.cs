@@ -1,8 +1,8 @@
 using System;
 
-namespace backend.Model;
+namespace backend.DTOs;
 
-public class Aircraft
+public class AircraftDto
 {
     public int Id { get; set; }
     public string IcaoCode { get; set; } = null!;
@@ -13,16 +13,11 @@ public class Aircraft
     public int CruiseSpeedKmh { get; set; }
     public int? RangeKm { get; set; }
 
-
-    public List<AircraftSeat> Seats { get; set; } = new();
+    public List<SeatDto> Seats { get; set; } = new();
 }
 
-public class AircraftSeat
+public class SeatDto
 {
-    public int Id { get; set; }
-    public int AircraftId { get; set; }
     public string Class { get; set; } = null!;
     public int SeatCount { get; set; }
-
-    public Aircraft Aircraft { get; set; } = null!;
 }

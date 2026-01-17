@@ -9,6 +9,7 @@ namespace FlightBookingApp.Data
         // DbSets for your models
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Aircraft> Aircraft { get; set; }
+        public DbSet<AircraftSeat> aircraftSeats { get; set; }
         public DbSet<Airport> Airport { get; set; }
 
 
