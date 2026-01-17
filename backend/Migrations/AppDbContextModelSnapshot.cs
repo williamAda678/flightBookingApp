@@ -48,12 +48,32 @@ namespace backend.Migrations
                     b.Property<int?>("RangeKm")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TypicalSeats")
+                    b.HasKey("Id");
+
+                    b.ToTable("Aircraft");
+                });
+
+            modelBuilder.Entity("backend.Model.AircraftSeat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AircraftId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Class")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SeatCount")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Aircraft");
+                    b.HasIndex("AircraftId");
+
+                    b.ToTable("aircraftSeats");
                 });
 
             modelBuilder.Entity("backend.Model.Airport", b =>
@@ -127,6 +147,22 @@ namespace backend.Migrations
                     b.HasKey("FlightId");
 
                     b.ToTable("Flights");
+                });
+
+            modelBuilder.Entity("backend.Model.AircraftSeat", b =>
+                {
+                    b.HasOne("backend.Model.Aircraft", "Aircraft")
+                        .WithMany("Seats")
+                        .HasForeignKey("AircraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aircraft");
+                });
+
+            modelBuilder.Entity("backend.Model.Aircraft", b =>
+                {
+                    b.Navigation("Seats");
                 });
 #pragma warning restore 612, 618
         }

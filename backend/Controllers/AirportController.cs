@@ -1,3 +1,4 @@
+using backend.Extensions;
 using backend.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +19,25 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var aircrafts = _airportServices.GetAllAirportsAsync();
-            return Ok(aircrafts);
+            var airport = _airportServices.GetAllAirportsAsync();
+            return Ok(airport);
         }
 
         [HttpGet("{iataCode}")]
         public async Task<IActionResult> Get(string iataCode)
         {
-            var aircraft = _airportServices.GetAirportByIcaoCodeAsync(iataCode);
-            if (aircraft == null) return NotFound("Unable to find aircraft");
+            var airport = _airportServices.GetAirportByIcaoCodeAsync(iataCode);
+            if (airport == null) return NotFound("Unable to find aircraft");
 
-            return Ok(aircraft);
+            return Ok(airport);
+        }
+
+        [HttpGet("distance")]
+        public async Task<IActionResult> Get([FromQuery] string origin, string destination)
+        {
+            var distance = await _airportServices.GetAirportDistance(origin, destination);
+            if (distance == 0) return NotFound("Unable to find aircraft");
+            return Ok(ToDTOs.ToDistanceDTOs(distance));
         }
     }
 }

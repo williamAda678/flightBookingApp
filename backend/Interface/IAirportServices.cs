@@ -7,4 +7,5 @@ public interface IAirportServices
 {
     Task<IEnumerable<Airport>> GetAllAirportsAsync();
     Task<Airport?> GetAirportByIcaoCodeAsync(string IcaoCode);
+    Task<double> GetAirportDistance(string origin, string destination);
 }

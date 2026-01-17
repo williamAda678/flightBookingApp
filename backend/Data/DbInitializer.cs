@@ -44,12 +44,12 @@ namespace FlightBookingApp.Data
 
         public static void SeedAircraft(AppDbContext context)
         {
-            if (context.Aircraft.Any())
+            if (!context.Aircraft.Any())
             {
-                return; // Data already seeded
-            }
 
-            var aircarft = new List<Aircraft>
+
+
+                var aircarft = new List<Aircraft>
                 {
                 new()
                 {
@@ -59,7 +59,6 @@ namespace FlightBookingApp.Data
                     Model = "A320",
                     Category = "Narrow-body",
                     CruiseSpeedKmh = 830,
-                    TypicalSeats = 180,
                     RangeKm = 6100
                 },
                 new()
@@ -70,7 +69,6 @@ namespace FlightBookingApp.Data
                     Model = "A321",
                     Category = "Narrow-body",
                     CruiseSpeedKmh = 830,
-                    TypicalSeats = 220,
                     RangeKm = 7400
                 },
                 new()
@@ -81,7 +79,6 @@ namespace FlightBookingApp.Data
                     Model = "A320neo",
                     Category = "Narrow-body",
                     CruiseSpeedKmh = 835,
-                    TypicalSeats = 180,
                     RangeKm = 6300
                 },
                 new()
@@ -92,7 +89,6 @@ namespace FlightBookingApp.Data
                     Model = "737-800",
                     Category = "Narrow-body",
                     CruiseSpeedKmh = 830,
-                    TypicalSeats = 189,
                     RangeKm = 5600
                 },
                 new()
@@ -103,7 +99,6 @@ namespace FlightBookingApp.Data
                     Model = "737-900",
                     Category = "Narrow-body",
                     CruiseSpeedKmh = 830,
-                    TypicalSeats = 220,
                     RangeKm = 5900
                 },
                 new() {
@@ -113,7 +108,6 @@ namespace FlightBookingApp.Data
                     Model = "787-8 Dreamliner",
                     Category = "Wide-body",
                     CruiseSpeedKmh = 900,
-                    TypicalSeats = 250,
                     RangeKm = 13600
                 },
                 new()
@@ -124,7 +118,6 @@ namespace FlightBookingApp.Data
                     Model = "787-9 Dreamliner",
                     Category = "Wide-body",
                     CruiseSpeedKmh = 900,
-                    TypicalSeats = 290,
                     RangeKm = 14100
                 },
                 new()
@@ -135,7 +128,6 @@ namespace FlightBookingApp.Data
                     Model = "A350-900",
                     Category = "Wide-body",
                     CruiseSpeedKmh = 905,
-                    TypicalSeats = 300,
                     RangeKm = 15000
                 },
                 new()
@@ -146,7 +138,6 @@ namespace FlightBookingApp.Data
                     Model = "E190",
                     Category = "Regional Jet",
                     CruiseSpeedKmh = 820,
-                    TypicalSeats = 100,
                     RangeKm = 4500
                 },
                 new()
@@ -157,13 +148,85 @@ namespace FlightBookingApp.Data
                     Model = "ATR 72-600",
                     Category = "Turboprop",
                     CruiseSpeedKmh = 510,
-                    TypicalSeats = 70,
                     RangeKm = 1500
                 }
              };
-            context.Aircraft.AddRange(aircarft);
+                context.Aircraft.AddRange(aircarft);
+                context.SaveChanges();
+            }
+
+
+            if (context.aircraftSeats.Any())
+            {
+                return; // Data already seeded
+            }
+
+
+
+            var a320 = context.Aircraft.First(a => a.IcaoCode == "A320");
+            var a321 = context.Aircraft.First(a => a.IcaoCode == "A321");
+            var a20N = context.Aircraft.First(a => a.IcaoCode == "A20N");
+            var b738 = context.Aircraft.First(a => a.IcaoCode == "B738");
+            var B739 = context.Aircraft.First(a => a.IcaoCode == "B739");
+            var B788 = context.Aircraft.First(a => a.IcaoCode == "B788");
+            var b789 = context.Aircraft.First(a => a.IcaoCode == "B789");
+            var a359 = context.Aircraft.First(a => a.IcaoCode == "A359");
+            var e190 = context.Aircraft.First(a => a.IcaoCode == "E190");
+            var at76 = context.Aircraft.First(a => a.IcaoCode == "AT76");
+
+            // Typical seating configs
+
+            var aircraftSeats = new List<AircraftSeat>{ 
+                // Airbus A320
+                new() { AircraftId = a320.Id, Class = "Economy", SeatCount = 150 },
+                new() { AircraftId = a320.Id, Class = "Business", SeatCount = 30 },
+
+                // Airbus A321
+                new() { AircraftId = a321.Id, Class = "Economy", SeatCount = 190 },
+                new() { AircraftId = a321.Id, Class = "Business", SeatCount = 30 },
+                
+                // Airbus A320Neo
+                new() { AircraftId = a20N.Id, Class = "Economy", SeatCount = 138 },
+                new() { AircraftId = a20N.Id, Class = "Business", SeatCount = 8 },
+
+
+                // Boeing 737-800
+                new() { AircraftId = b738.Id, Class = "Economy", SeatCount = 150 },
+                new() { AircraftId = b738.Id, Class = "Business", SeatCount = 30 },
+                new() { AircraftId = b738.Id, Class = "First", SeatCount = 9 },
+
+                // Boeing 737-900
+                new() { AircraftId = B739.Id, Class = "Economy", SeatCount = 138 },
+                new() { AircraftId = B739.Id, Class = "Premium", SeatCount = 24 },
+                new() { AircraftId = B739.Id, Class = "First", SeatCount = 16 },
+
+                // Boeing 787-8
+                new() { AircraftId = b789.Id, Class = "Economy", SeatCount = 186 },
+                new() { AircraftId = b789.Id, Class = "Premium", SeatCount = 28 },
+                new() { AircraftId = b789.Id, Class = "Business", SeatCount = 20 },
+
+                // Boeing 787-9
+                new() { AircraftId = b789.Id, Class = "Economy", SeatCount = 250 },
+                new() { AircraftId = b789.Id, Class = "Business", SeatCount = 30 },
+                new() { AircraftId = b789.Id, Class = "First", SeatCount = 10 },
+
+                // Airbus A350-900
+                new() { AircraftId = a359.Id, Class = "Economy", SeatCount = 270 },
+                new() { AircraftId = a359.Id, Class = "Business", SeatCount = 30 },
+                new() { AircraftId = a359.Id, Class = "First", SeatCount = 10 },
+
+                // Embraer E190
+                new() { AircraftId = e190.Id, Class = "Economy", SeatCount = 90 },
+                new() { AircraftId = e190.Id, Class = "Business", SeatCount = 10 },
+
+
+                new() { AircraftId = at76.Id, Class = "Economy", SeatCount = 70 },
+          };
+
+            context.aircraftSeats.AddRange(aircraftSeats);
             context.SaveChanges();
         }
+
 
 
 

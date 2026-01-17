@@ -2,6 +2,7 @@ using System;
 using backend.DTOs;
 using backend.Model;
 using Microsoft.AspNetCore.Components.Web;
+using static backend.DTOs.Airport;
 
 namespace backend.Extensions;
 
@@ -57,5 +58,15 @@ public class ToDTOs
             Airport = x,
         })];
 
+    }
+
+    public static DistanceDTOs ToDistanceDTOs(double distance)
+    {
+        return new DistanceDTOs
+        {
+            DistanceKm = Math.Round(distance, 2),
+            NauticalMiles = Math.Round(distance * 0.539957, 2),
+            Miles = Math.Round(distance * 0.621371, 2),
+        };
     }
 }
