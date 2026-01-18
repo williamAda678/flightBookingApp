@@ -11,11 +11,12 @@ public static class FlightData
         {
             Origin = "NYC",
             Destination = "LAX",
-            DepartureTime = DateTime.UtcNow.AddHours(2),
-            ArrivalTime = DateTime.UtcNow.AddHours(5),
+            DepartureTime = new DateTime(2026, 1, 18, 14, 0, 0),
+            ArrivalTime = new DateTime(2026, 1, 18, 21, 0, 0),
             Airline = "Delta",
             CabinClass = "Economy",
-            Price = 299.99m
+            Price = 299.99m,
+            FlightId = 1,
         };
     }
 
@@ -27,21 +28,23 @@ public static class FlightData
                 {
                     Origin = "NYC",
                     Destination = "LAX",
-                    DepartureTime = DateTime.UtcNow.AddHours(2),
-                    ArrivalTime = DateTime.UtcNow.AddHours(7),
+                    DepartureTime =  new DateTime(2026, 1, 18, 14, 0, 0),
+                    ArrivalTime =new DateTime(2026, 1, 18, 21, 0, 0),
                     Airline = "Delta",
                     CabinClass = "Economy",
-                    Price = 350.00m
+                    Price = 350.00m,
+                    FlightId = 1,
                 },
                 new Flight
                 {
                     Origin = "LHR",
                     Destination = "DXB",
-                    DepartureTime = DateTime.UtcNow.AddHours(5),
-                    ArrivalTime = DateTime.UtcNow.AddHours(12),
+                    DepartureTime =  new DateTime(2026, 1, 18, 14, 0, 0),
+                    ArrivalTime = new DateTime(2026, 1, 18, 21, 0, 0),
                     Airline = "Emirates",
                     CabinClass = "Business",
-                    Price = 1250.00m
+                    Price = 1250.00m,
+                    FlightId = 2,
                 }
             ];
     }

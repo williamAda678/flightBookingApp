@@ -48,4 +48,24 @@ public class FlightServiceTest
         // Assert
         flights.Should().HaveCount(2);
     }
+
+    [Fact]
+    public async Task GetAllFlightByidAsync_ReturnsAllFlights()
+    {
+        // Arrange
+        var result = FlightData.CreateVaildFlight();
+        var context = DbContextFactory.Create();
+        context.Flights.AddRange(
+            FlightData.CreateVaildFlight()
+        );
+        await context.SaveChangesAsync();
+
+        var service = new FlightServices(context);
+
+        // Act
+        var flights = await service.GetFlightByIdAsync(1);
+
+        // Assert
+        flights.Should().BeEquivalentTo(result);
+    }
 }
